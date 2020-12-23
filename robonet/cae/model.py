@@ -82,9 +82,9 @@ class ConvAutoencoder_v2(nn.Module):
             input_chan_conv1 = 1
         else:
             input_chan_conv1 = 3
-        output_chan_conv1 = 16
+        output_chan_conv1 = 32
         input_chan_conv2 = output_chan_conv1
-        output_chan_conv2 = 8
+        output_chan_conv2 = 16
 
         # conv layers
         kernel_size_encoder = 7
