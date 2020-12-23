@@ -1,4 +1,3 @@
-tensorflow-gpu==1.14
 opencv-python
 scipy
 scikit-image
