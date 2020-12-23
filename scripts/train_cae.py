@@ -24,7 +24,7 @@ from robonet.cae.dataset import get_dataset
 from robonet.datasets import load_metadata
 
 
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0001
 
 
 def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
