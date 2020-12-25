@@ -84,12 +84,12 @@ class ConvAutoencoder_v2(nn.Module):
             input_chan_conv1 = 3
         output_chan_conv1 = 32
         input_chan_conv2 = output_chan_conv1
-        output_chan_conv2 = 16
+        output_chan_conv2 = 8
 
         # conv layers
-        kernel_size_encoder = 5
+        kernel_size_encoder = 7
         stride_encoder = 1
-        padding_encoder = 2
+        padding_encoder = 3
 
         # conv layers
         self.conv1 = nn.Conv2d(input_chan_conv1, output_chan_conv1, \
@@ -104,9 +104,9 @@ class ConvAutoencoder_v2(nn.Module):
         
         # decoder layers
         # transpose conv
-        kernel_size_decoder = 6
+        kernel_size_decoder = 8
         stride_decoder = 2
-        padding_decoder = 2
+        padding_decoder = 3
 
         # transpose conv layers
         self.t_conv1 = nn.ConvTranspose2d(output_chan_conv2, input_chan_conv2, \
