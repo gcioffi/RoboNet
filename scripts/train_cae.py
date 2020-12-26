@@ -61,6 +61,9 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
     path_lib(out_dir).mkdir(parents=True, exist_ok=True)
 
     # training
+    train_loss_list = []
+    valid_loss_list = []
+
     t_start = timeit.default_timer()
     for epoch in range(1, n_epochs+1):
         train_loss = 0.0
@@ -68,7 +71,7 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
             images = batch['image'].to(device)
             optimizer.zero_grad()
             # forward pass
-            CAE.train()
+            #CAE.train()
             outputs = CAE(images)
             # calculate the loss
             loss = loss_fun(outputs, images)
@@ -79,6 +82,7 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
             train_loss += loss.item()*images.size(0)
                 
         train_loss = train_loss/len(train_loader)
+        train_loss_list.append(train_loss)
         print('Epoch: {} \tTraining Loss: {:.6f}'.format(epoch, train_loss))
 
         # eval. on validation dataset
@@ -93,6 +97,7 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
                     valid_loss += loss.item()*images.size(0)
 
                 valid_loss = valid_loss/len(validation_loader)
+                valid_loss_list.append(valid_loss)
                 print('\nEpoch: {} \tValidation Loss: {:.6f}\n'.format(epoch, valid_loss))
         
         # Save intermediate results
@@ -119,6 +124,12 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
     out_fn = os.path.join(out_dir, out_fn)
     torch.save(CAE.state_dict(), out_fn)
     print('Model saved: %s' % out_fn)
+
+    out_fn = out_fn[:-3] + '_train_loss.txt'
+    np.savetxt(out_fn, np.asarray(train_loss_list))
+
+    out_fn = out_fn[:-15] + '_valid_loss.txt'
+    np.savetxt(out_fn, np.asarray(valid_loss_list))
 
 
 if __name__ == '__main__':
