@@ -13,9 +13,9 @@ class ConvAutoencoder_v1(nn.Module):
             input_chan_conv1 = 1
         else:
             input_chan_conv1 = 3
-        output_chan_conv1 = 16
+        output_chan_conv1 = 32
         input_chan_conv2 = output_chan_conv1
-        output_chan_conv2 = 32
+        output_chan_conv2 = 16
         input_chan_conv3 = output_chan_conv2
         output_chan_conv3 = 8
         input_chan_conv4 = output_chan_conv3
