@@ -52,8 +52,8 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
     print(CAE)
 
     # loss function
-    #loss_fun = nn.BCELoss()
-    loss_fun = nn.L1Loss()
+    loss_fun = nn.BCELoss()
+    #loss_fun = nn.L1Loss()
     optimizer = torch.optim.Adam(CAE.parameters(), lr=LEARNING_RATE)
 
     # Save dir
