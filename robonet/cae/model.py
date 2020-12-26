@@ -13,16 +13,18 @@ class ConvAutoencoder_v1(nn.Module):
             input_chan_conv1 = 1
         else:
             input_chan_conv1 = 3
-        output_chan_conv1 = 128
+        output_chan_conv1 = 16
         input_chan_conv2 = output_chan_conv1
-        output_chan_conv2 = 96
+        output_chan_conv2 = 32
         input_chan_conv3 = output_chan_conv2
-        output_chan_conv3 = 64
+        output_chan_conv3 = 8
+        input_chan_conv4 = output_chan_conv3
+        output_chan_conv4 = 4
 
         # conv layers
-        kernel_size_encoder = 5
+        kernel_size_encoder = 3
         stride_encoder = 1
-        padding_encoder = 2
+        padding_encoder = 1
 
         # conv layers
         self.conv1 = nn.Conv2d(input_chan_conv1, output_chan_conv1, \
@@ -34,39 +36,44 @@ class ConvAutoencoder_v1(nn.Module):
         self.conv3 = nn.Conv2d(input_chan_conv3, output_chan_conv3, \
             kernel_size=kernel_size_encoder, stride=stride_encoder, \
                 padding=padding_encoder)
+        self.conv4 = nn.Conv2d(input_chan_conv4, output_chan_conv4, \
+            kernel_size=kernel_size_encoder, stride=stride_encoder, \
+                padding=padding_encoder)
 
         # pooling layer
         self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
         
         # decoder layers
-        kernel_size_decoder = 6
+        kernel_size_decoder = 4
         stride_decoder = 2
-        padding_decoder = 2
+        padding_decoder = 1
 
         # transpose conv layers
-        self.t_conv1 = nn.ConvTranspose2d(output_chan_conv3, input_chan_conv3, \
+        self.t_conv1 = nn.ConvTranspose2d(output_chan_conv4, input_chan_conv4, \
             kernel_size=kernel_size_decoder, stride=stride_decoder, \
                 padding=padding_decoder)
-        self.t_conv2 = nn.ConvTranspose2d(output_chan_conv2, input_chan_conv2, \
+        self.t_conv2 = nn.ConvTranspose2d(output_chan_conv3, input_chan_conv3, \
+            kernel_size=3, stride=1, padding=padding_decoder)
+        self.t_conv3 = nn.ConvTranspose2d(output_chan_conv2, input_chan_conv2, \
             kernel_size=kernel_size_decoder, stride=stride_decoder, \
                 padding=padding_decoder)
-        self.t_conv3 = nn.ConvTranspose2d(output_chan_conv1, input_chan_conv1, \
-            kernel_size=kernel_size_decoder, stride=stride_decoder, \
-                padding=padding_decoder)
+        self.t_conv4 = nn.ConvTranspose2d(output_chan_conv1, input_chan_conv1, \
+            kernel_size=3, stride=1, padding=padding_decoder)
 
     def forward(self, x):
         # encode
         x = F.relu(self.conv1(x))
-        x = self.pool(x)
         x = F.relu(self.conv2(x))
         x = self.pool(x)
         x = F.relu(self.conv3(x))
+        x = F.relu(self.conv4(x))
         x = self.pool(x)
         
         # decode
         x = F.relu(self.t_conv1(x))
         x = F.relu(self.t_conv2(x))
-        x = self.t_conv3(x)
+        x = F.relu(self.t_conv3(x))
+        x = self.t_conv4(x)
         
         # output layer (with sigmoid for scaling from 0 to 1)
         x = torch.sigmoid(x)
