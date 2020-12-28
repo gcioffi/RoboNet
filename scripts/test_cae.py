@@ -67,6 +67,9 @@ def run(data_dir, model_dir, batch_size, cae_version, plot):
     elif cae_version == 2:
         from robonet.cae.model import ConvAutoencoder_v2
         CAE = ConvAutoencoder_v2(grayscale).to(device)
+    elif cae_version == 3:
+        from robonet.cae.model import ConvAutoencoder_v3
+        CAE = ConvAutoencoder_v3(grayscale).to(device)
     CAE.load_state_dict(torch.load(model_dir))
     print("Loaded CAE:")
     for param_tensor in CAE.state_dict():

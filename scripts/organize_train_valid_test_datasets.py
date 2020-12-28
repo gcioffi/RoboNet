@@ -15,7 +15,7 @@ PERC_TRAIN = 0.7
 PERC_VALID = 0.1
 PERC_TEST = 0.2
 
-IMG_SIZE = [32, 32]
+IMG_SIZE = [112, 112]
 
 
 def organize_dataset(dir, robot):
@@ -145,12 +145,12 @@ if __name__=='__main__':
 
     out_dir = os.path.join(args.out_dir, args.robot)
 
-    save_data(out_dir, train_list, train_images, 'train_32x32', False)
-    save_data(out_dir, train_list, train_images_grayscale, 'train_32x32', True)
+    save_data(out_dir, train_list, train_images, 'train_112x112', False)
+    save_data(out_dir, train_list, train_images_grayscale, 'train_112x112', True)
     
-    save_data(out_dir, valid_list, valid_images, 'valid_32x32', False)
-    save_data(out_dir, valid_list, valid_images_grayscale, 'valid_32x32', True)
+    save_data(out_dir, valid_list, valid_images, 'valid_112x112', False)
+    save_data(out_dir, valid_list, valid_images_grayscale, 'valid_112x112', True)
 
-    save_data(out_dir, test_list, test_images, 'test_32x32', False)
-    save_data(out_dir, test_list, test_images_grayscale, 'test_32x32', True)
+    save_data(out_dir, test_list, test_images, 'test_112x112', False)
+    save_data(out_dir, test_list, test_images_grayscale, 'test_112x112', True)
 

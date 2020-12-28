@@ -48,6 +48,9 @@ def run(train_dir, valid_dir, cae_version, batch_size, n_epochs):
     elif cae_version == 2:
         from robonet.cae.model import ConvAutoencoder_v2
         CAE = ConvAutoencoder_v2(grayscale).to(device)
+    elif cae_version == 3:
+        from robonet.cae.model import ConvAutoencoder_v3
+        CAE = ConvAutoencoder_v3(grayscale).to(device)
     print('--- CAE model ---')
     print(CAE)
 
